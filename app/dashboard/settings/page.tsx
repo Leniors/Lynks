@@ -8,7 +8,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { useUser } from "@/context/UserContext";
-import { uploadAvatar, getAvatarUrl, updateUserInDB, getUserByUsername } from "@/lib/actions";
+import {
+  uploadAvatar,
+  getAvatarUrl,
+  updateUserInDB,
+  getUserByUsername,
+} from "@/lib/actions";
 import RequireUser from "@/components/RequireUser";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -63,6 +68,11 @@ export default function SettingsPage() {
     setLoading(true);
     let finalAvatarUrl = avatarUrl;
 
+    if (!user) {
+      toast.error("You're not logged in.");
+      return;
+    }
+
     try {
       if (file) {
         const uploaded = await uploadAvatar(file);
@@ -72,14 +82,14 @@ export default function SettingsPage() {
 
       if (values.username !== user?.username) {
         const existing = await getUserByUsername(values.username);
-        if (existing && existing.$id !== user!.$id) {
+        if (existing && existing.$id !== user.$id) {
           toast.error("Username already taken");
           setLoading(false);
           return;
         }
       }
 
-      const updated = await updateUserInDB(user!.$id, {
+      const updated = await updateUserInDB(user.$id, {
         ...values,
         avatarUrl: finalAvatarUrl,
       });
@@ -102,7 +112,9 @@ export default function SettingsPage() {
     <RequireUser>
       <div className="min-h-screen bg-zinc-950 text-white p-6">
         <div className="max-w-xl mx-auto">
-          <h1 className="text-2xl font-bold text-blue-400 mb-6">Profile Settings</h1>
+          <h1 className="text-2xl font-bold text-blue-400 mb-6">
+            Profile Settings
+          </h1>
 
           {avatarUrl && (
             <div className="mb-4 text-center">

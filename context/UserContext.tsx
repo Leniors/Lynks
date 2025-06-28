@@ -5,6 +5,7 @@ import { account } from "@/lib/appwrite";
 import { getUserById } from "@/lib/actions";
 
 type User = {
+  $id: string;
   userId: string;
   name: string;
   username: string;
