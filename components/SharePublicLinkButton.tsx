@@ -19,7 +19,7 @@ export default function SharePublicLinkButton({
           text: `Here's my profile on Lynks 👇`,
           url,
         });
-      } catch (err) {
+      } catch {
         toast.error("Sharing canceled or failed");
       }
     } else {
