@@ -1,11 +1,11 @@
 // app/user/[username]/page.tsx
+import { Metadata } from "next";
 import UserPage from "./UserPage";
 import { getUserByUsername } from "@/lib/actions";
-import { Metadata } from "next";
 
 const defaultImage = "https://your-domain.com/default-avatar.png";
 
-// ✅ Do NOT use "PageProps" here — just inline the type
+// ✅ No custom types, just inline everything
 export async function generateMetadata({
   params,
 }: {
@@ -37,7 +37,7 @@ export async function generateMetadata({
   };
 }
 
-// ✅ Main page component, inline typed
+// ✅ Inline type on the component too
 export default function Page({
   params,
 }: {
