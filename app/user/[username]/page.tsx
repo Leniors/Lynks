@@ -4,11 +4,11 @@ import { getUserByUsername } from "@/lib/actions";
 
 const defaultImage = "https://your-domain.com/default-avatar.png";
 
-type Props = {
+export async function generateMetadata({
+  params,
+}: {
   params: { username: string };
-};
-
-export async function generateMetadata({ params }: Props) {
+}) {
   const user = await getUserByUsername(params.username);
 
   if (!user) {
@@ -35,6 +35,10 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default function Page({ params }: Props) {
+export default function Page({
+  params,
+}: {
+  params: { username: string };
+}) {
   return <UserPage username={params.username} />;
 }
