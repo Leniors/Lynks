@@ -37,8 +37,17 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const dbUser = await getUserById(authUser.$id);
 
       if (dbUser) {
-        setUser(dbUser);
-        localStorage.setItem("lynks-user", JSON.stringify(dbUser));
+        const mappedUser: User = {
+          $id: dbUser.$id,
+          userId: dbUser.userId,
+          name: dbUser.name,
+          username: dbUser.username,
+          avatarUrl: dbUser.avatarUrl,
+          bio: dbUser.bio,
+          email: dbUser.email,
+        };
+        setUser(mappedUser);
+        localStorage.setItem("lynks-user", JSON.stringify(mappedUser));
       } else {
         setUser(null);
         localStorage.removeItem("lynks-user");
