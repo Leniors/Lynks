@@ -69,15 +69,28 @@ export async function logout() {
   }
 }
 
-export async function updateLink(linkId: string, updates: Partial<{ title: string; url: string; icon: string; color: string; order: number }>) {
+export async function updateLink(linkId: string, data: Partial<{ 
+  title: string;
+  url: string;
+  icon: string;
+  color: string;
+  order: number;
+  clicks: number; // ✅ add this line
+}>) {
   try {
-    const res = await databases.updateDocument(DATABASE_ID, LINKS_COLLECTION_ID, linkId, updates);
+    const res = await databases.updateDocument(
+      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_LINKS_COLLECTION_ID!,
+      linkId,
+      data
+    );
     return res;
   } catch (err) {
     console.error("Failed to update link", err);
     return null;
   }
 }
+
 
 export async function deleteLink(linkId: string) {
   try {
