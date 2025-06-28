@@ -72,14 +72,14 @@ export default function SettingsPage() {
 
       if (values.username !== user?.username) {
         const existing = await getUserByUsername(values.username);
-        if (existing && existing.$id !== user.$id) {
+        if (existing && existing.$id !== user!.$id) {
           toast.error("Username already taken");
           setLoading(false);
           return;
         }
       }
 
-      const updated = await updateUserInDB(user.$id, {
+      const updated = await updateUserInDB(user!.$id, {
         ...values,
         avatarUrl: finalAvatarUrl,
       });
