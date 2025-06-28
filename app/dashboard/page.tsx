@@ -32,19 +32,8 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AddLinkSchema } from "@/lib/schemas";
 
-export const AddLinkSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  url: z
-    .string()
-    .min(1, "URL is required")
-    .url("Must be a valid URL")
-    .refine((val) => !val.includes(" "), {
-      message: "URL must not contain spaces",
-    }),
-  icon: z.string().optional(),
-  color: z.string().optional(),
-});
 
 type AddLinkFormValues = z.infer<typeof AddLinkSchema>;
 
