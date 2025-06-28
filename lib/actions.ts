@@ -26,6 +26,7 @@ export async function addLink({
   icon = "",
   color = "#3b82f6",
   order = 1,
+  clicks = 0, // ✅ add default value
 }: {
   title: string;
   url: string;
@@ -33,6 +34,7 @@ export async function addLink({
   icon?: string;
   color?: string;
   order?: number;
+  clicks?: number; // ✅ add to type
 }) {
   try {
     const res = await databases.createDocument(
@@ -46,7 +48,7 @@ export async function addLink({
         icon,
         color,
         order,
-        clicks: 0, //  Add this line to satisfy schema
+        clicks, // ✅ send it to Appwrite
       }
     );
     return res;
@@ -55,6 +57,7 @@ export async function addLink({
     return null;
   }
 }
+
 
 
 export async function logout() {
