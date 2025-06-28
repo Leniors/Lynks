@@ -1,11 +1,10 @@
-// app/user/[username]/page.tsx
 import { Metadata } from "next";
 import UserPage from "./UserPage";
 import { getUserByUsername } from "@/lib/actions";
 
 const defaultImage = "https://your-domain.com/default-avatar.png";
 
-// ✅ No custom types, just inline everything
+// ✅ INLINE PARAMS — do NOT use `Props` or `PageProps`
 export async function generateMetadata({
   params,
 }: {
@@ -24,20 +23,15 @@ export async function generateMetadata({
     title: `${user.name} (@${user.username}) | Lynks`,
     description: user.bio || "Check out this profile on Lynks",
     openGraph: {
-      title: `${user.name} (@${user.username}) | Lynks`,
-      description: user.bio || "Check out this profile on Lynks",
       images: [user.avatarUrl || defaultImage],
     },
     twitter: {
-      card: "summary_large_image",
-      title: `${user.name} (@${user.username}) | Lynks`,
-      description: user.bio || "Check out this profile on Lynks",
       images: [user.avatarUrl || defaultImage],
     },
   };
 }
 
-// ✅ Inline type on the component too
+// ✅ PAGE FUNCTION
 export default function Page({
   params,
 }: {
