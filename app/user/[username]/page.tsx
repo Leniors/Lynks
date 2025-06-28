@@ -1,16 +1,19 @@
+// In app/user/[username]/page.tsx
+
 import { Metadata } from "next";
 import UserPage from "./UserPage";
 import { getUserByUsername } from "@/lib/actions";
 
-const defaultImage = "https://your-domain.com/default-avatar.png"; // Make sure this URL is correct and accessible
+const defaultImage = "https://your-domain.com/default-avatar.png";
 
-// generateMetadata is an async function that receives params directly
+// ✅ INLINE PARAMS — now expected to be a Promise in Next.js 15
 export async function generateMetadata({
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>; // params is now a Promise
 }): Promise<Metadata> {
-  const user = await getUserByUsername(params.username);
+  const resolvedParams = await params; // Await the params
+  const user = await getUserByUsername(resolvedParams.username); // Use resolvedParams.username
 
   if (!user) {
     return {
@@ -31,12 +34,12 @@ export async function generateMetadata({
   };
 }
 
-// The Page component receives params directly for dynamic routes
-export default function Page({
+// ✅ PAGE FUNCTION — params is also a Promise here
+export default async function Page({ // Page component needs to be async too
   params,
 }: {
-  params: { username: string };
+  params: Promise<{ username: string }>; // params is a Promise
 }) {
-  // UserPage component will fetch user data based on the username param
-  return <UserPage username={params.username} />;
+  const resolvedParams = await params; // Await the params
+  return <UserPage username={resolvedParams.username} />;
 }
