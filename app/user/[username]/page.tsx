@@ -1,14 +1,18 @@
 // app/user/[username]/page.tsx
+import { Metadata } from "next";
 import UserPage from "./UserPage";
 import { getUserByUsername } from "@/lib/actions";
 
 const defaultImage = "https://your-domain.com/default-avatar.png";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { username: string };
-}) {
+type PageProps = {
+  params: {
+    username: string;
+  };
+};
+
+// Generate metadata (head info)
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const user = await getUserByUsername(params.username);
 
   if (!user) {
@@ -35,10 +39,7 @@ export async function generateMetadata({
   };
 }
 
-export default function Page({
-  params,
-}: {
-  params: { username: string };
-}) {
+// Actual page component
+export default function Page({ params }: PageProps) {
   return <UserPage username={params.username} />;
 }
