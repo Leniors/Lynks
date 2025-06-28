@@ -1,11 +1,15 @@
+// app/user/[username]/page.tsx
+import UserPage from "./UserPage";
 import { getUserByUsername } from "@/lib/actions";
-import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+const defaultImage = "https://your-domain.com/default-avatar.png";
 
 export async function generateMetadata({
   params,
 }: {
   params: { username: string };
-}): Promise<Metadata> {
+}) {
   const user = await getUserByUsername(params.username);
 
   if (!user) {
@@ -21,13 +25,25 @@ export async function generateMetadata({
     openGraph: {
       title: `${user.name} (@${user.username}) | Lynks`,
       description: user.bio || "Check out this profile on Lynks",
-      images: [user.avatarUrl || "https://your-domain.com/default-avatar.png"],
+      images: [user.avatarUrl || defaultImage],
     },
     twitter: {
       card: "summary_large_image",
       title: `${user.name} (@${user.username}) | Lynks`,
       description: user.bio || "Check out this profile on Lynks",
-      images: [user.avatarUrl || "https://your-domain.com/default-avatar.png"],
+      images: [user.avatarUrl || defaultImage],
     },
   };
+}
+
+export default async function Page({
+  params,
+}: {
+  params: { username: string };
+}) {
+  const user = await getUserByUsername(params.username);
+
+  if (!user) return notFound();
+
+  return <UserPage username={params.username} />;
 }
