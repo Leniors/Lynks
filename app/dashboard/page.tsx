@@ -32,12 +32,7 @@ import { LinkItem } from "@/components/dashboard/LinkItem";
 import { AddLinkDialog } from "@/components/dashboard/AddLinkDialog";
 import { ProfilePreview } from "@/components/dashboard/ProfilePreview";
 import { toast } from "@/hooks/use-toast";
-import {
-  Link as LinkIcon,
-  User,
-  Eye,
-  TrendingUp,
-} from "lucide-react";
+import { Link as LinkIcon, User, Eye, TrendingUp, Loader2 } from "lucide-react";
 import { useUserStore } from "@/stores/userStore";
 
 export default function Dashboard() {
@@ -61,7 +56,11 @@ export default function Dashboard() {
   );
 
   if (loading) {
-    return <div>Loading...</div>; // Or skeleton loader
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
+        <Loader2 className="h-8 w-8 animate-spin text-gray-500 mb-4" />
+      </div>
+    );
   }
 
   if (!user) {

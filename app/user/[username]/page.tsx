@@ -296,7 +296,7 @@ export default function PublicProfile() {
                   color: activeTheme.textColor,
                 }}
               >
-                {(profile?.full_name || profile?.username || "")
+                {(profile?.full_name || profile?.username || "U")
                   .charAt(0)
                   .toUpperCase()}
               </AvatarFallback>

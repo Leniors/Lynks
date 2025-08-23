@@ -30,34 +30,45 @@ export const useUserStore = create<UserStore>((set, get) => ({
 
   fetchUser: async () => {
     set({ loading: true });
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      if (sessionError) throw sessionError;
 
-    if (session?.user) {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single();
+      if (session?.user) {
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
 
-      if (profile) {
-        set({ user: profile, loading: false });
+        if (error) throw error;
 
-        // 🔹 Redirect to complete-profile if no username
-        if (
-          !profile.username &&
-          typeof window !== "undefined" &&
-          window.location.pathname !== "/complete-profile"
-        ) {
-          window.location.href = "/complete-profile";
+        if (profile) {
+          set({ user: profile });
+
+          // Redirect if no username
+          if (
+            !profile.username &&
+            typeof window !== "undefined" &&
+            window.location.pathname !== "/complete-profile"
+          ) {
+            window.location.href = "/complete-profile";
+          }
+        } else {
+          set({ user: null });
         }
       } else {
-        set({ user: null, loading: false });
+        set({ user: null });
       }
-    } else {
-      set({ user: null, loading: false });
+    } catch (err) {
+      console.error("Error in fetchUser:", err);
+      set({ user: null });
+    } finally {
+      set({ loading: false });
     }
   },
 
