@@ -33,7 +33,14 @@ export async function GET(request: Request) {
         // No profile → create one
         const { error: insertError } = await supabase
           .from("profiles")
-          .insert([{ id: user.id, email: user.email, username: null }]);
+          .insert([
+            {
+              id: user.id,
+              email: user.email,
+              username: null,
+              theme: "default",
+            },
+          ]);
 
         if (insertError) {
           console.error("Error creating profile:", insertError.message);

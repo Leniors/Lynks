@@ -66,8 +66,9 @@ const Login = () => {
         const { error: insertError } = await supabase.from("profiles").insert([
           {
             id: user.id,
-            email: user.email, // Assuming `email` column exists
+            email: user.email,
             username: null,
+            theme: "default",
           },
         ]);
         if (insertError) throw insertError;
