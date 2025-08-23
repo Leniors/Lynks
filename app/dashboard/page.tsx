@@ -36,12 +36,13 @@ import { Link as LinkIcon, User, Eye, TrendingUp, Loader2 } from "lucide-react";
 import { useUserStore } from "@/stores/userStore";
 
 export default function Dashboard() {
-  const { user, loading, updating, updateProfile } = useUserStore();
+  const { user, loading, updating, updateProfile, fetchUser } = useUserStore();
   const { links, reorderLinks, fetchLinks } = useLinksStore();
 
   useEffect(() => {
+    fetchUser();
     fetchLinks();
-  }, [fetchLinks]);
+  }, [fetchUser, fetchLinks]);
 
   const [profileForm, setProfileForm] = useState({
     full_name: user?.full_name || "",
