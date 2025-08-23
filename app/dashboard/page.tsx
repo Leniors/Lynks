@@ -36,13 +36,12 @@ import { Link as LinkIcon, User, Eye, TrendingUp, Loader2 } from "lucide-react";
 import { useUserStore } from "@/stores/userStore";
 
 export default function Dashboard() {
-  const { user, loading, updating, updateProfile, fetchUser } = useUserStore();
+  const { user, updating, updateProfile } = useUserStore();
   const { links, reorderLinks, fetchLinks } = useLinksStore();
 
   useEffect(() => {
-    fetchUser();
     fetchLinks();
-  }, [fetchUser, fetchLinks]);
+  }, [fetchLinks]);
 
   const [profileForm, setProfileForm] = useState({
     full_name: user?.full_name || "",
@@ -56,7 +55,7 @@ export default function Dashboard() {
     })
   );
 
-  if (loading) {
+  if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
         <Loader2 className="h-8 w-8 animate-spin text-gray-500 mb-4" />

@@ -17,6 +17,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/utils/supabase/client";
 import GoogleButton from "@/components/GoogleButton";
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,6 +33,13 @@ const Register = () => {
     type: "error" | "success";
     text: string;
   } | null>(null);
+  const { user } = useUserStore();
+  const router = useRouter();
+
+  if (user) {
+    // User is already logged in, redirect to dashboard
+    router.push("/dashboard");
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -17,6 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/utils/supabase/client";
 import GoogleButton from "@/components/GoogleButton";
+import { useUserStore } from "@/stores/userStore";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,6 +25,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useUserStore();
+
+  if (user) {
+    // User is already logged in, redirect to dashboard
+    router.push("/dashboard");
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
