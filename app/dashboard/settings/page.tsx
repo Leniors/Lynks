@@ -190,11 +190,19 @@ export default function SettingsPage() {
               {/* Avatar & Upload */}
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
                 <Avatar className="w-20 h-20">
-                  <AvatarImage src={profileForm.avatar} alt="Profile avatar" />
+                  <AvatarImage
+                    src={profileForm.avatar ?? undefined}
+                    alt={
+                      profileForm.full_name
+                        ? `Avatar of ${profileForm.full_name}`
+                        : "Profile avatar"
+                    }
+                  />
                   <AvatarFallback className="text-2xl">
-                    {profileForm.full_name.charAt(0).toUpperCase()}
+                    {(profileForm.full_name ?? "").charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
+
                 <div className="space-y-2 text-center sm:text-left">
                   <Button
                     variant="outline"

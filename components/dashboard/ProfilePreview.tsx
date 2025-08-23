@@ -81,7 +81,16 @@ export function ProfilePreview() {
     color: activeTheme.textColor, // Readable text
   });
 
-  const getButtonVariant = (): "default" | "outline" | "ghost" | "gradient" | "link" | "destructive" | "secondary" | null | undefined => {
+  const getButtonVariant = ():
+    | "default"
+    | "outline"
+    | "ghost"
+    | "gradient"
+    | "link"
+    | "destructive"
+    | "secondary"
+    | null
+    | undefined => {
     const v = (theme.buttonStyle || "").toLowerCase();
     if (v === "default" || v === "outline" || v === "ghost" || v === "gradient")
       return v as typeof v;
@@ -132,7 +141,7 @@ export function ProfilePreview() {
               <Avatar className="w-24 h-24 mx-auto ring-4 ring-offset-4 ring-offset-background">
                 <AvatarImage
                   src={user.avatar ?? undefined}
-                  alt={`Avatar of ${user.full_name} (@${user.username})`}
+                  alt={`Avatar of ${user.full_name ?? user.username ?? "User"}`}
                   loading="lazy"
                 />
                 <AvatarFallback
@@ -142,7 +151,11 @@ export function ProfilePreview() {
                     color: activeTheme.textColor,
                   }}
                 >
-                  {(user.full_name! || user.username!).charAt(0).toUpperCase()}
+                  {(
+                    user.full_name?.charAt(0) ??
+                    user.username?.charAt(0) ??
+                    "U"
+                  ).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
 
@@ -204,7 +217,10 @@ export function ProfilePreview() {
                 <ToggleGroup
                   type="single"
                   value={activeTab}
-                  onValueChange={(v) => v && setActiveTab(v as "links" | "products" | "subscriptions")}
+                  onValueChange={(v) =>
+                    v &&
+                    setActiveTab(v as "links" | "products" | "subscriptions")
+                  }
                   className="grid w-full max-w-md grid-cols-3 gap-2"
                 >
                   <ToggleGroupItem
@@ -221,7 +237,9 @@ export function ProfilePreview() {
                     }}
                   >
                     <Link className="h-4 w-4" />
-                    <span className="hidden sm:inline truncate max-w-[100px]">Links</span>
+                    <span className="hidden sm:inline truncate max-w-[100px]">
+                      Links
+                    </span>
                     <Badge
                       className="justify-center px-1.5 py-1"
                       variant="secondary"
@@ -244,7 +262,9 @@ export function ProfilePreview() {
                     }}
                   >
                     <Package className="h-4 w-4" />
-                    <span className="hidden sm:inline truncate max-w-[100px]">Products</span>
+                    <span className="hidden sm:inline truncate max-w-[100px]">
+                      Products
+                    </span>
                     <Badge
                       className="justify-center px-1.5 py-1"
                       variant="secondary"
@@ -267,7 +287,9 @@ export function ProfilePreview() {
                     }}
                   >
                     <Users className="h-4 w-4" />
-                    <span className="hidden sm:inline truncate max-w-[100px]">Subscriptions</span>
+                    <span className="hidden sm:inline truncate max-w-[100px]">
+                      Subscriptions
+                    </span>
                   </ToggleGroupItem>
                 </ToggleGroup>
               </div>
@@ -389,7 +411,9 @@ export function ProfilePreview() {
                                   toast(
                                     <>
                                       <strong>Checkout coming soon</strong>
-                                      <div>Connect Stripe in your Commerce page.</div>
+                                      <div>
+                                        Connect Stripe in your Commerce page.
+                                      </div>
                                     </>
                                   )
                                 }
